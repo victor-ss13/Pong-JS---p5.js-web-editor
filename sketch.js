@@ -161,11 +161,13 @@ function marcaPonto() {
   if(xBolinha > 589){
     meusPontos += 1;
     ponto.play();
+    bolinhaNaoFicaPresa();
   }
   if(xBolinha < 11){
     pontosOponente += 1;
     ponto.play();
     calculaErro();
+    bolinhaNaoFicaPresa();
   }
 }
 
@@ -178,3 +180,16 @@ function calculaErro() {
     chanceDeErrar = 0;
   }
 }
+
+//bolinha não fica presa
+
+
+function bolinhaNaoFicaPresa(){
+    if (xBolinha - raio < 0) {
+    xBolinha = 23
+    }
+    if (xBolinha + raio > 590) {
+      xBolinha = 577
+    }
+}
+
