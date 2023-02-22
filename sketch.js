@@ -21,6 +21,7 @@ let hRaquete = 100;
 let xOponente = 585;
 let yOponente = 150;
 let velocidadeYOponente;
+let chanceDeErrar = 0;
 
 //velocidade da Bolinha
 
@@ -65,6 +66,7 @@ function draw() {
   colisaoRaqueteBiblioteca(xRaquete, yRaquete);
   mostraRaquete(xOponente, yOponente);
   movimentaOponente();
+  //multiplayer();
   //colisaoOponenteBiblioteca();
   colisaoRaqueteBiblioteca(xOponente, yOponente)
   incluiPlacar();
@@ -112,6 +114,7 @@ function colisaoRaqueteBiblioteca(x,y) {
   if(colidiu) {
     velocidadeXBolinha *= -1
       raquetada.play();
+    calculaErro();
   }
 }
 
@@ -128,8 +131,15 @@ function colisaoOponenteBiblioteca() {
 
 function movimentaOponente() {
   velocidadeYOponente = yBolinha - yOponente - hRaquete / 2 - 37;
-  yOponente += velocidadeYOponente;
+  yOponente += velocidadeYOponente + chanceDeErrar;
 }
+
+function multiplayer() {
+  if (keyIsDown(87)) {yOponente -= 10}
+  if (keyIsDown(83)) {yOponente += 10}
+}
+
+//placar
 
 function incluiPlacar() {
   stroke(255);
@@ -145,6 +155,8 @@ function incluiPlacar() {
   text(pontosOponente, 450, 26);
 }
 
+//pontuação
+
 function marcaPonto() {
   if(xBolinha > 589){
     meusPontos += 1;
@@ -152,5 +164,17 @@ function marcaPonto() {
   }
   if(xBolinha < 11){
     pontosOponente += 1;
+    ponto.play();
+    calculaErro();
+  }
+}
+
+//calculando o erro
+
+function calculaErro() {
+   if(xBolinha < 300){
+    chanceDeErrar = round(random(-25,25));
+  }else{
+    chanceDeErrar = 0;
   }
 }
